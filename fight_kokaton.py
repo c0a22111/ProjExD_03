@@ -151,6 +151,21 @@ class Bomb:
         screen.blit(self.img, self.rct)
 
 
+class Explosion():
+    def __init__(self):
+        self.img_e = pg.transform.rotozoom(pg.image.load(f"ex03/fig/explosion.gif"), 0, 2.0)
+        self.img_ef = pg.transform.flip(self.img_e, True, True)
+        self.img_list = [self.img_e, self.img_ef]
+        self.life = 5
+
+    def update(self, bomb: Bomb):
+        life = self.life
+        for e_img in self.img_list:
+            self.img = pg.transform.rotozoom(e_img[life%2], 0, 2.0)
+            life -= 1
+            .blit(self.img, bomb.rct.center)
+
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -158,6 +173,7 @@ def main():
     bird = Bird(3, (900, 400))
     bombs = [Bomb() for _ in range(NUM_OF_BOMBS)]
     beam = None # beam初期化
+    exp = []
 
     clock = pg.time.Clock()
     tmr = 0
@@ -189,8 +205,11 @@ def main():
                     # 撃ち落とした際にこうかとんが喜ぶ判定
                     # イメージを呼び出して、ディスプレイ更新
                     bird.change_img(6, screen)
+                    exp.append(Explosion(bomb))
                     pg.display.update()
         bombs = [bomb for bomb in bombs if bomb is not None]
+        for i in range(len(exp)):
+            i.life
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
