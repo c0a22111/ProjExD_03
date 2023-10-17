@@ -154,6 +154,7 @@ class Bomb:
 class Explosion():
     def __init__(self):
         self.img_e = pg.transform.rotozoom(pg.image.load(f"ex03/fig/explosion.gif"), 0, 2.0)
+        # self.img_eで画像を読み込んだものをflipする
         self.img_ef = pg.transform.flip(self.img_e, True, True)
         self.img_list = [self.img_e, self.img_ef]
         self.life = 5
